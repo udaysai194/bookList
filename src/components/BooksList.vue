@@ -11,7 +11,7 @@
         <div class="clearfix"></div>
       </div>
 
-    <div class="box z-depth-2" v-for="item in list">
+    <div class="box z-depth-1" v-for="item in list">
       <div class="book left truncate">
         {{item.bookName}}
       </div>
@@ -70,6 +70,11 @@ export default {
 
 .box {
   padding: 13px;
+  border-radius: 5px;
+}
+
+.box:hover {
+  border: 1px solid #e65100;
 }
 
 .book {
