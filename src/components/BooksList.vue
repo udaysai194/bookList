@@ -1,4 +1,5 @@
 <template lang="html">
+  <div>
   <div class="container">
 
       <div id="boxHeader">
@@ -11,46 +12,77 @@
         <div class="clearfix"></div>
       </div>
 
-    <div class="box z-depth-1" v-for="item in list">
-      <div class="book left truncate">
-        {{item.bookName}}
+    <div class="box z-depth-1" style="cursor: pointer;" v-for="item in list" v-bind:key="item.id">
+      <router-link class="black-text" v-bind:to="{ name: 'Book-View', params: {book_id: item.book_id} }">
+              <div class="left truncate">
+                {{item.bookName}}
+              </div>
+              <div class="right">
+                {{item.submitDate}}
+              </div>
+              <div class="clearfix"></div>
+      </router-link>
       </div>
-      <div class="date right">
-        {{item.submitDate}}
-      </div>
-      <div class="clearfix"></div>
-    </div>
 
+
+    <p>To add a new book, please click the below floating button with add sign</p>
   </div><!--container ends-->
+  <div class="fixed-action-btn">
+    <router-link to="/addBook" class="btn-floating btn-large orange darken-2">
+      <i class="large material-icons">add</i>
+    </router-link>
+    <ul>
+      <li><a class="btn-floating red"><i class="material-icons">insert_chart</i></a></li>
+      <li><a class="btn-floating yellow darken-1"><i class="material-icons">format_quote</i></a></li>
+      <li><a class="btn-floating green"><i class="material-icons">publish</i></a></li>
+      <li><a class="btn-floating blue"><i class="material-icons">attach_file</i></a></li>
+    </ul>
+  </div>
+</div>
 </template>
 
 <script>
+import db from './firebaseInit.js'
 export default {
   name: 'Books-List',
   data () {
     return {
-      list:[
-        {
-          bookName: 'c language',
-          submitDate: '15/02/2018'
-        },
-        {
-          bookName: 'head first java',
-          submitDate: '18/02/2018'
-        },
-        {
-          bookName: 'herbert schildt',
-          submitDate: '25/02/2018'
-        },
-        {
-          bookName: 'data base management system',
-          submitDate: '28/02/2018'
-        }
-      ]
+      list:[]
     }
+  },
+
+created () {
+  db.collection('users').orderBy('submitDate').get()
+    .then((querySnapshot) => {
+        querySnapshot.forEach(doc => {
+          const data = {
+            'book_id': doc.id,
+            'bookName': doc.data().bookName,
+            'submitDate': doc.data().submitDate
+          }
+          this.list.push(data)
+        }
+      );
+    })
+    .catch((err) => {
+        console.log('Error getting documents', err);
+    });
   }
 }
 </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 <style lang="css">
 #boxHeader{
@@ -60,12 +92,12 @@ export default {
 }
 
 #bookLabel {
-  width: 80%;
+  width: 50%;
 }
 
 #dateLabel {
-  text-align: center;
-  width: 20%;
+  text-align: right;
+  width: 50%;
 }
 
 .box {
@@ -86,10 +118,15 @@ export default {
   width: 20%;
 }
 
+p{
+    color: grey;
+    opacity: 0.7;
+    margin: 20px;
+    text-align: center;
+}
 
 
-
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 480px) {
 
 }
 </style>

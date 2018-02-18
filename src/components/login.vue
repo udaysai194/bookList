@@ -20,7 +20,12 @@
           </div>
         </div><!--password-->
         <div class="buttn">
-          <input type="submit" name="btn" class="btn waves-effect teal">
+          <router-link to="/bookslist">
+          <input type="submit" name="login" value="LOGIN" class="btn waves-effect teal">
+          </router-link>
+          <router-link to="/signup" class="btn waves-effect teal">
+            signup
+          </router-link>
         </div>
       </form>
 
@@ -41,8 +46,8 @@
 
 <style scoped>
 #login-box{
+  margin: 16px auto 50px auto;
   width: 70%;
-  margin: 10px auto;
   border-radius: 7px;
 }
 
@@ -51,10 +56,13 @@
   text-align: center;
 }
 
-@media only screen and (max-width:700px) {
+@media only screen and (max-width:480px) {
   #login-box {
     width: 100%;
 
+  }
+  #logo{
+    padding: 10px;
   }
 }
 </style>

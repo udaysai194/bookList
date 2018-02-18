@@ -3,13 +3,15 @@ import Router from 'vue-router'
 import AddBook from '@/components/AddBook'
 import BooksList from '@/components/BooksList'
 import Login from '@/components/login'
+import Signup from '@/components/signup'
+import BookView from '@/components/bookView'
 
 Vue.use(Router)
 
 export default new Router({
   routes: [
     {
-      path: '/',
+      path: '/addBook',
       name: 'Add-Book',
       component: AddBook
     },
@@ -19,9 +21,19 @@ export default new Router({
       component: BooksList
     },
     {
-      path: '/login',
+      path: '/bookView/:book_id',
+      name: 'Book-View',
+      component: BookView
+    },
+    {
+      path: '/',
       name: 'login',
       component: Login
+    },
+    {
+      path: '/signup',
+      name: 'signup',
+      component: Signup
     }
   ]
 })
