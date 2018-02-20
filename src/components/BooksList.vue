@@ -12,32 +12,29 @@
         <div class="clearfix"></div>
       </div>
 
-    <div class="box z-depth-1" style="cursor: pointer;" v-for="item in list" v-bind:key="item.id">
-      <router-link class="black-text" v-bind:to="{ name: 'Book-View', params: {book_id: item.book_id} }">
-              <div class="left truncate">
-                {{item.bookName}}
-              </div>
-              <div class="right">
-                {{item.submitDate}}
-              </div>
-              <div class="clearfix"></div>
-      </router-link>
+      <div  v-for="item in list" v-bind:key="item.id">
+        <router-link class="black-text" v-bind:to="{ name: 'Book-View', params: {book_id: item.book_id} }">
+          <div class="box z-depth-1" style="cursor: pointer;">
+                <div class="left truncate">
+                  {{item.bookName}}
+                </div>
+                <div class="right">
+                  {{item.submitDate}}
+                </div>
+                <div class="clearfix"></div>
+          </div>
+        </router-link>
       </div>
 
 
     <p>To add a new book, please click the below floating button with add sign</p>
   </div><!--container ends-->
   <div class="fixed-action-btn">
-    <router-link to="/addBook" class="btn-floating btn-large orange darken-2">
+    <router-link :to="{ name: 'Add-Book' }" class="btn-floating btn-large orange darken-2">
       <i class="large material-icons">add</i>
     </router-link>
-    <ul>
-      <li><a class="btn-floating red"><i class="material-icons">insert_chart</i></a></li>
-      <li><a class="btn-floating yellow darken-1"><i class="material-icons">format_quote</i></a></li>
-      <li><a class="btn-floating green"><i class="material-icons">publish</i></a></li>
-      <li><a class="btn-floating blue"><i class="material-icons">attach_file</i></a></li>
-    </ul>
   </div>
+
 </div>
 </template>
 
@@ -52,22 +49,37 @@ export default {
   },
 
 created () {
-  db.collection('users').orderBy('submitDate').get()
-    .then((querySnapshot) => {
-        querySnapshot.forEach(doc => {
-          const data = {
-            'book_id': doc.id,
-            'bookName': doc.data().bookName,
-            'submitDate': doc.data().submitDate
+  var path = this.$route.fullPath
+  var arr = path.split('/');
+  var username = arr[arr.length-1]
+
+
+  var user = db.collection('users').doc(username);
+  var userDocs = user.get()
+      .then(doc => {
+          if (!doc.exists) {
+              console.log('No such document!');
+          } else {
+              user.collection('booksList').orderBy('submitDate').get()
+              .then((snapshot) => {
+                  snapshot.forEach((doc) => {
+                      const book = {
+                        book_id: doc.id,
+                        bookName: doc.data().bookName,
+                        submitDate: doc.data().submitDate
+                      }
+                      this.list.push(book)
+                  });
+              })
+              .catch((err) => {
+                  console.log('Error getting documents', err);
+              });
           }
-          this.list.push(data)
-        }
-      );
-    })
-    .catch((err) => {
-        console.log('Error getting documents', err);
-    });
-  }
+      })
+      .catch(err => {
+          console.log('Error getting document', err);
+      });
+    }
 }
 </script>
 

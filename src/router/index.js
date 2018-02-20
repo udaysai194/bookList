@@ -11,17 +11,17 @@ Vue.use(Router)
 export default new Router({
   routes: [
     {
-      path: '/addBook',
+      path: '/bookslist/:username/addBook',
       name: 'Add-Book',
       component: AddBook
     },
     {
-      path: '/bookslist',
+      path: '/bookslist/:username',
       name: 'Books-List',
       component: BooksList
     },
     {
-      path: '/bookView/:book_id',
+      path: '/bookslist/:username/:book_id',
       name: 'Book-View',
       component: BookView
     },

@@ -8,58 +8,72 @@
         <div class="row">
           <div class="col s10 input-field offset-s1">
             <i class="material-icons prefix">account_circle</i>
-            <input type="text" id="username" name="username" v-model="name">
+            <input type="text" id="username" v-model="username">
             <label for="username">username</label>
           </div>
         </div><!--username-->
           <div class="row">
             <div class="col s10 input-field offset-s1">
               <i class="material-icons prefix">edit</i>
-              <input type="text" id="name" name="name">
+              <input type="text" id="name" v-model="name">
               <label for="name">name</label>
             </div>
           </div><!--name-->
             <div class="row">
               <div class="col s10 input-field offset-s1">
                 <i class="material-icons prefix">edit</i>
-                <input type="text" name="rollno" id="rollno">
+                <input type="text" style="text-transform: uppercase" v-model="rollno" id="rollno">
                 <label for="rollno">rollno</label>
               </div>
             </div><!--rollno-->
         <div class="row">
           <div class="col s10 input-field offset-s1">
             <i class="material-icons prefix">vpn_key</i>
-            <input type="password" id="password" name="password">
+            <input type="password" id="password" v-model="password">
             <label for="password">password</label>
           </div>
         </div><!--password-->
         <div class="buttn">
-          <router-link to="/bookslist">
-            <input type="submit" name="btn" class="btn waves-effect teal">
+          <router-link :to="{ name: 'Books-List', params: {username: this.username} }">
+            <button type="button" name="button" class="btn waves-effect green black-text" @click="check">submit</button>
           </router-link>
         </div>
       </form>
-      <button type="button" name="button" @click="check">button</button>
     </div>
   </div>
 </template>
 
 <script>
+import db from './firebaseInit.js'
   export default{
     name: 'signup',
     data () {
       return {
-        msg:'login bar',
-        name: ''
+        username:'',
+        name: '',
+        rollno: '',
+        password: ''
       }
     },
     methods:{
-      check: function() {
-        console.log(document.getElementById('name').value)
+      check () {
+        db.collection('users').doc(this.username).set({
+          password: this.password,
+          name: this.name,
+          rollno: this.rollno
+        })
       }
   }
 }
 </script>
+
+
+
+
+
+
+
+
 
 <style scoped>
 #logo{

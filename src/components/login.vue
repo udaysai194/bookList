@@ -8,23 +8,21 @@
         <div class="row">
           <div class="col s10 input-field offset-s1">
             <i class="material-icons prefix">account_circle</i>
-            <input type="text" id="username" name="username">
+            <input type="text" id="username" v-model="username">
             <label for="username">username</label>
           </div>
         </div><!--username-->
         <div class="row">
           <div class="col s10 input-field offset-s1">
             <i class="material-icons prefix">vpn_key</i>
-            <input type="password" id="password" name="password">
+            <input type="password" id="password" v-model="password">
             <label for="password">password</label>
           </div>
         </div><!--password-->
         <div class="buttn">
-          <router-link to="/bookslist">
-          <input type="submit" name="login" value="LOGIN" class="btn waves-effect teal">
-          </router-link>
-          <router-link to="/signup" class="btn waves-effect teal">
-            signup
+          <button type="button" name="button" class="btn waves-effect green black-text" v-on:click="onLogin()">login</button>
+          <router-link to="/signup">
+            <button type="button" name="button" class="btn waves-effect teal black-text">signup</button>
           </router-link>
         </div>
       </form>
@@ -34,15 +32,37 @@
 </template>
 
 <script>
+import db from './firebaseInit.js'
   export default{
     name: 'login',
     data () {
       return {
-        msg:'login bar'
+        username: '',
+        password: ''
+      }
+    },
+
+    methods: {
+      onLogin () {
+        db.collection('users').doc(this.username).get().then(doc => {
+          if(doc.exists){
+            const pass = doc.data().password
+            if(this.password == pass){
+              this.$router.push({name:'Books-List', params:{username: this.username}})
+            }else{
+              alert('incorrect password')
+            }
+          }else{
+            alert('username does not exist')
+          }
+
+        })
       }
     }
   }
 </script>
+
+
 
 <style scoped>
 #login-box{

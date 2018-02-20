@@ -2,26 +2,31 @@
   <div>
     <div class="container">
       <h1></h1>
-      <form class="col s12" v-on:submit.prevent="addBook()">
+      <form class="col s12">
         <div class="row">
           <div class="col s12 input-field">
-            <input type="text" name="book" v-model="bookName">
+            <input type="text" id="book" v-model="bookName">
             <label for="book">book title</label>
           </div>
         </div><!--inputBook-->
         <div class="row">
           <div class="col s12 input-field">
-            <input type="text" name="author" v-model="author">
+            <input type="text" id="author" v-model="author">
             <label for="author">author</label>
           </div>
         </div><!--inputAuthor-->
         <div class="row">
           <div class="col s12 input-field">
-            <input type="text" name="date" v-model="submitDate">
-            <label for="date">dd/mm/yyy</label>
+            <input type="text" id="date" v-model="submitDate">
+            <label for="date">dd/mm/yyyy</label>
           </div>
         </div><!--inputDate-->
-        <input type="submit" class="btn teal">
+        <router-link :to="{ name: 'Books-List', params: {} }">
+          <button type="submit" name="button" class="btn waves-effect green black-text" v-on:click="addBook()">add</button>
+        </router-link>
+        <router-link :to="{ name: 'Books-List', params: {} }">
+          <button type="submit" name="button" class="btn waves-effect grey black-text">cancel</button>
+        </router-link>
       </form>
       </div>
   </div>
@@ -35,18 +40,25 @@ export default {
     return {
       bookName: '',
       submitDate: '',
-      author: ''
+      author: '',
+      username: ''
     }
   },
+
+  created () {
+    var path = this.$route.fullPath
+    var arr = path.split('/');
+    this.username = arr[arr.length-2]
+
+  },
+
   methods:{
     addBook () {
-      db.collection('users').add({
+      db.collection('users').doc(this.username).collection('booksList').add({
         bookName: this.bookName,
         submitDate: this.submitDate,
         author: this.author
-      }).then(docRef => {
-        this.$router.push('/BooksList')
-      }).catch(error => console.log(err))
+      }).catch(error => console.log(error))
     }
     }
   }

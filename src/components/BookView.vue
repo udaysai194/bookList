@@ -21,8 +21,12 @@
             <input type="text" id="date" placeholder="submitDate" v-model="submitDate">
           </div>
         </div><!--inputDate-->
-        <input type="submit" class="btn waves-effect teal" value="save" @click="updateBook()">
-        <input type="button" class="btn waves-effect red" value="delele" @click="deleteBook()">
+        <router-link :to="{ name: 'Books-List', params: {} }">
+          <button type="button" name="button" class="btn waves-effect green black-text" v-on:click="updateBook()">submit</button>
+        </router-link>
+        <router-link :to="{ name: 'Books-List', params: {} }">
+          <button type="button" name="button" class="btn waves-effect red black-text" v-on:click="deleteBook()">delete</button>
+        </router-link>
       </form>
       </div>
   </div>
@@ -36,36 +40,43 @@ export default {
     return {
       bookName: '',
       submitDate: '',
-      author: ''
+      author: '',
+      username: ''
     }
   },
   created () {
-    db.collection('users').doc(this.$route.params.book_id).get().then((doc) => {
+    var path = this.$route.fullPath
+    console.log(path);
+    var arr = path.split('/');
+    this.username = arr[arr.length-2]
+    console.log(this.username);
+
+    db.collection('users').doc(this.username).collection('booksList')
+    .doc(this.$route.params.book_id).get().then((doc) => {
       this.bookName = doc.data().bookName
       this.submitDate = doc.data().submitDate
       this.author = doc.data().author
-    }).catch((err) => {
-      console.log(err);
-    })
+    }).catch(err => console.log(err))
   },
 
   methods:{
     deleteBook () {
-      db.collection('users').doc(this.$route.params.book_id).delete().then(docRef => {
-        this.$router.push('/BooksList')
+      db.collection('users').doc(this.username).collection('booksList')
+      .doc(this.$route.params.book_id).delete().then(docRef => {
       }).catch(error => console.log(err))
     },
+
     updateBook () {
-      db.collection('users').doc(this.$route.params.book_id).update({
+      db.collection('users').doc(this.username).collection('booksList')
+      .doc(this.$route.params.book_id).update({
         bookName: this.bookName,
         author: this.author,
         submitDate: this.submitDate
-      }).then(doc => {
-        this.$router.push('/bookslist')
-      }).catch(error => console.log(err))
+      }).catch(err => console.log(err))
     }
-    }
+
   }
+}
 
 </script>
 
