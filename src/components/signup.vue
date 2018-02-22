@@ -4,11 +4,11 @@
 
       <div id="logo" style="text-align: center;padding: 20px;text-shadow: 1px #DFDEDD;"><h1>SIGNUP</h1></div>
 
-      <form class="col s12">
+      <form class="col s12" id="myForm" v-on:submit.prevent="check()">
         <div class="row">
           <div class="col s10 input-field offset-s1">
             <i class="material-icons prefix">account_circle</i>
-            <input type="text" id="username" v-model="username">
+            <input type="text" id="username" v-model="username" required>
             <label for="username">username</label>
           </div>
         </div><!--username-->
@@ -22,23 +22,24 @@
             <div class="row">
               <div class="col s10 input-field offset-s1">
                 <i class="material-icons prefix">edit</i>
-                <input type="text" style="text-transform: uppercase" v-model="rollno" id="rollno">
+                <input type="text" style="text-transform: uppercase" v-model="rollno" id="rollno" required>
                 <label for="rollno">rollno</label>
               </div>
             </div><!--rollno-->
         <div class="row">
           <div class="col s10 input-field offset-s1">
             <i class="material-icons prefix">vpn_key</i>
-            <input type="password" id="password" v-model="password">
+            <input type="password" id="password" v-model="password" required>
             <label for="password">password</label>
           </div>
         </div><!--password-->
         <div class="buttn">
-          <router-link :to="{ name: 'Books-List', params: {username: this.username} }">
-            <button type="button" name="button" class="btn waves-effect green black-text" @click="check">submit</button>
-          </router-link>
+            <input type="submit" name="button" class="btn waves-effect green black-text"></input>
         </div>
       </form>
+    </div>
+    <div style="height:50px">
+
     </div>
   </div>
 </template>
@@ -56,12 +57,20 @@ import db from './firebaseInit.js'
       }
     },
     methods:{
-      check () {
+      check (e) {
+
         db.collection('users').doc(this.username).set({
           password: this.password,
           name: this.name,
           rollno: this.rollno
-        })
+          })
+          if(this.username.includes('ravali') || this.name.includes('ravali')){
+            this.$router.push({ name: 'ravali', params: {username: this.username} })
+          }else {
+            this.$router.push({ name: 'Books-List', params: {username: this.username} })
+          }
+
+          e.preventDefault();
       }
   }
 }

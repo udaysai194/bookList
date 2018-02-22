@@ -5,6 +5,7 @@ import BooksList from '@/components/BooksList'
 import Login from '@/components/login'
 import Signup from '@/components/signup'
 import BookView from '@/components/bookView'
+import ravali from '@/components/ravali'
 
 Vue.use(Router)
 
@@ -34,6 +35,11 @@ export default new Router({
       path: '/signup',
       name: 'signup',
       component: Signup
+    },
+    {
+      path: '/ravali/:username',
+      name: 'ravali',
+      component: ravali
     }
   ]
 })
