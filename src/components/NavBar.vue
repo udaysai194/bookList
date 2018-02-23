@@ -3,7 +3,7 @@
     <div class="nav-wrapper orange darken-2">
       <a href="#" class="brand-logo center truncate">BOOKS LIST</a>
       <div class="container">
-        <router-link :to="{ name: 'login' }" class="link right" id="logout">login</router-link>
+        <router-link :to="{ name: 'login' }" class="link right" id="login">logout</router-link>
         <router-link :to="{ name: 'signup' }" class="link right">signup</router-link>
       </div>
     </div>
