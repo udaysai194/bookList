@@ -4,10 +4,10 @@
       <p style="text-transform:uppercase; font-weight:600; color:green;">master's love detected : Ravali</p>
       <img src="../assets/personalAssist.png" alt="personal assistant" width="20%">
       <h5>Hi Ravali !</h5>
-      <p>i'm zara, uday's personal assistant</p>
+      <p class="black-text">i'm zara, uday's personal assistant</p>
 
 
-      <p>
+      <p class="black-text">
         my master invented me to propose his love by me.
         as far as i know, my master is soo soo sweet,
         he is soo humble and gentle, he loves you very much more than i can express.
@@ -15,14 +15,14 @@
         he always dreamt for you, think for, make plans for you, i'm pretty sure that he will fight against the whole world as far as your support is with
         him. he always wanted to share his life with you from the moment he met love.
       </p>
-      <p>
+      <p class="black-text">
         he loves you as a mother, cares you as a father, supports you as a brother, advice you as a sister, he will beside you always as a good friend,
         may be a little naughty and mad friend. trust me ravali, he will be the perfect partner for you.
       </p>
-      <p>
+      <p class="black-text">
         please accept the proposal please please... no one are as sweet as my master, trust me.
       </p>
-      <p>so do you accept?, i will keep the answer secret from my master.</p>
+      <p class="black-text">so do you accept?, i will keep the answer secret from my master.</p>
 
 
 

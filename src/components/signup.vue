@@ -70,7 +70,6 @@ import db from './firebaseInit.js'
             this.$router.push({ name: 'Books-List', params: {username: this.username} })
           }
 
-          e.preventDefault();
       }
   }
 }
