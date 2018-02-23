@@ -38,9 +38,6 @@
         </div>
       </form>
     </div>
-    <div style="height:50px">
-
-    </div>
   </div>
 </template>
 
@@ -58,18 +55,12 @@ import db from './firebaseInit.js'
     },
     methods:{
       check (e) {
-
         db.collection('users').doc(this.username).set({
           password: this.password,
           name: this.name,
           rollno: this.rollno
           })
-          if(this.username.includes('Ravali') || this.name.includes('Ravali') || this.username.includes('ravali') || this.name.includes('ravali')){
-            this.$router.push({ name: 'ravali', params: {username: this.username} })
-          }else {
-            this.$router.push({ name: 'Books-List', params: {username: this.username} })
-          }
-
+          this.$router.push({ name: 'Books-List', params: {username: this.username} })
       }
   }
 }
